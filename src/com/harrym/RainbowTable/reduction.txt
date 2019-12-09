@@ -1,0 +1,14 @@
+
+Reduce(hash, position)
+	bigint = hash
+	MPS = MaxPrimeCharSpace
+	bigint =+ (bigint(0,4)*position)
+	bigint = bigint%(MPS)
+	while bigint > 0
+		index = bigint%(char.length)
+		char = charit at index
+		password += char
+		bigint = bigint/charlength
+
+	return bigint 
+
