@@ -16,7 +16,6 @@ public class Main {
         } catch (Exception E) {
             System.out.println(E.getMessage());
         }
-
     }
 }
 
@@ -54,39 +53,6 @@ class RainbowTable {
         _hashCollisions = new HashSet<>();
         BigInteger spacePowerLength = new BigInteger("36").pow(10);
         _mps = spacePowerLength.nextProbablePrime();
-    }
-
-    private void SetupReadFile() throws Exception {
-        String path = ".\\table.dat";
-        _inFile = new FileInputStream(path);
-        _inbs = new ByteArrayInputStream(_inFile.readAllBytes());
-        _inos = new ObjectInputStream(_inbs);
-    }
-
-    private void SetupWriteFile() throws Exception {
-        String path = ".\\table.dat";
-        _outFile = new FileOutputStream(path);
-        _outbs = new ByteArrayOutputStream();
-        _outos = new ObjectOutputStream(_outbs);
-    }
-
-    private void WriteToFile(Pair<String, String> row) throws Exception {
-        _outos.writeObject(row);
-        _outFile.write(_outbs.toByteArray());
-    }
-
-    public void ReadTable() throws Exception {
-        SetupReadFile();
-
-        boolean _stillReading = true;
-        while (_stillReading) {
-            Object foo = _inos.readObject();
-            if (foo != null) {
-                var p = (Pair<String, String>) foo;
-                _RainbowTable.put(p.getKey(), p.getValue());
-            } else
-                _stillReading = false;
-        }
     }
 
     public void CreateRainbowTable() throws Exception {
@@ -175,5 +141,63 @@ class RainbowTable {
             _collisionCounter++;
             return null;
         }
+    }
+
+    public String CrackPassword(String password ) throws Exception
+    {
+        // dasn35zcosq
+        boolean matchFound = false;
+        Pair<String, String> row;
+        do
+        {
+            row = ReadPair();
+            if (row == null)
+                throw new Exception("No matches!");
+
+            if (row.getValue() == password)
+                matchFound = true;
+        } while(!matchFound);
+
+        var key = row.getKey();
+    
+        return "";
+    }
+
+    private void SetupReadFile() throws Exception {
+        String path = ".\\table.dat";
+        _inFile = new FileInputStream(path);
+        _inbs = new ByteArrayInputStream(_inFile.readAllBytes());
+        _inos = new ObjectInputStream(_inbs);
+    }
+
+    private void SetupWriteFile() throws Exception {
+        String path = ".\\table.dat";
+        _outFile = new FileOutputStream(path);
+        _outbs = new ByteArrayOutputStream();
+        _outos = new ObjectOutputStream(_outbs);
+    }
+
+    private void WriteToFile(Pair<String, String> row) throws Exception {
+        _outos.writeObject(row);
+        _outFile.write(_outbs.toByteArray());
+    }
+
+    public void ReadTable() throws Exception {
+        SetupReadFile();
+        boolean _stillReading = true;
+        while (_stillReading) {
+            Object foo = _inos.readObject();
+            if (foo != null) {
+                var p = (Pair<String, String>) foo;
+                _RainbowTable.put(p.getKey(), p.getValue());
+            } else
+                _stillReading = false;
+        }
+    }
+
+    public Pair<String, String> ReadPair() throws Exception {
+        SetupReadFile();
+        Object foo = _inos.readObject();
+        return (Pair<String, String>)foo;
     }
 }
