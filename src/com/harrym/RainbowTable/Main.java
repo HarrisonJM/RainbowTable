@@ -130,7 +130,6 @@ class RainbowTable {
             }
             hash_bi = hash_bi.subtract(BigInteger.ONE);
         }
-
         return password_builder.toString();
     }
 
@@ -146,6 +145,7 @@ class RainbowTable {
     public String CrackPassword(String password ) throws Exception
     {
         // dasn35zcosq
+        // uyhr3b3igld
         boolean matchFound = false;
         Pair<String, String> row;
         do
